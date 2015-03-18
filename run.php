@@ -9,7 +9,12 @@ set_include_path(get_include_path() . PATH_SEPARATOR . $path);
 
 require_once './vendor/autoload.php';
 require_once './reportGenerators/StudioAttendancePdf.php';
+require_once './reportGenerators/CompetitorTicketsPdf.php';
 
 //Run generator here
 $date = date('Y-m-d_H.i.s');
-$report = new \reportGenerators\StudioAttendancePdf('./data/input.csv', './data/StudioAttendance_' . $date . '.pdf');
+//$report = new \reportGenerators\StudioAttendancePdf('./data/input.csv', './data/StudioAttendance_' . $date . '.pdf');
+
+//Run generator here
+$date = date('Y-m-d_H.i.s');
+$report = new \reportGenerators\CompetitorTicketsPdf('./data/input.csv', './data/CompetitorTickets' . $date . '.pdf');

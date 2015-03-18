@@ -16,6 +16,14 @@ abstract class AbstractGenerator {
 
     const COL_FNAME = 4;
     const COL_LNAME = 5;
+    const COL_ADDRESS = 6;
+    const COL_ADDRESS2 = 7;
+    const COL_CITY = 8;
+    const COL_STATE = 9;
+    const COL_ZIP = 10;
+    const COL_COUNTRY = 11;
+    const COL_PHONE = 12;
+    const COL_EMAIL = 14;
     const COL_WTSDA_NUM = 15;
     const COL_DOB = 16;
     const COL_GENDER = 17;
@@ -23,6 +31,19 @@ abstract class AbstractGenerator {
     const COL_JUDGING = 19;
     const COL_STUDIO = 20;
     const COL_COMPETING = 22;
+    const COL_DINNER_ADULT = 23;
+    const COL_DINNER_CHILD = 24;
+    const COL_TSHIRT_CHILD_S = 25;
+    const COL_TSHIRT_CHILD_M = 26;
+    const COL_TSHIRT_CHILD_L = 27;
+    const COL_TSHIRT_ADULT_S = 28;
+    const COL_TSHIRT_ADULT_M = 29;
+    const COL_TSHIRT_ADULT_L = 30;
+    const COL_TSHIRT_ADULT_XL = 31;
+    const COL_TSHIRT_ADULT_XXL = 32;
+    const COL_DATE_REGISTERED = 35;
+    const COL_CONFIRM_ID = 45;
+
 
     protected $inputFile = null;
     protected $outputFile = null;
