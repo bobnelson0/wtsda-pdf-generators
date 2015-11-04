@@ -107,6 +107,7 @@ TABLEHEAD;
         $this->pdf->WriteHTML($html);
         $this->pdf->Bookmark('Overview');
     }
+
     public function renderTable($data) {
         $html = <<<TABLEHEAD
 <table>
@@ -163,7 +164,7 @@ ROW;
     public function buildDataFromFile() {
         $line = 0;
         if (($handle = fopen($this->inputFile, 'r')) !== false) {
-            while (($data = fgetcsv($handle, 1000, ",")) !== false) {
+            while (($data = fgetcsv($handle, self::CSV_LINE_LENGTH, ",")) !== false) {
                 if($line == 0) {
                     $line++;
                     continue;

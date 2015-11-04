@@ -30,14 +30,14 @@ class CompetitorTicketsPdf extends AbstractGenerator {
         foreach($this->data as $student) {
             $this->renderTable($student);
             $counter++;
-            if($counter > 5) {
+            if($counter > 4) {
                 $counter = 1;
                 $this->pdf->AddPage();
             } else {
                 $this->pdf->writeHTML('<hr class="cutline">');
             }
             $helper++;
-            if($helper > 20) break;
+            //if($helper > 20) break;
         }
         $this->renderFooter();
     }
@@ -60,8 +60,13 @@ table {
     border-spacing: 0;
     border-collapse: collapse;
 }
+table.white, thead.white, tbody.white, tr.white, td.white {
+    border: 1px solid white;
+}
 td {
     padding: 2px;
+    display: table-cell;
+    vertical-align: top;
 }
 hr {
     margin: 3px;
@@ -71,6 +76,21 @@ hr.cutline {
     border-bottom: 1px dashed #ccc;
     background: #999;
     margin: 10px 0;
+}
+div.extras {
+    width: 1000px;
+    height: 30px;
+    font-size: 14px;
+    position:relative;
+}
+div.tshirt {
+    background-color: lightgrey;
+}
+div.adultDinner {
+    background-color: lightseagreen;
+}
+div.childDinner {
+    background-color: lightgreen;
 }
 </style>
 STYLE;
@@ -98,22 +118,46 @@ STYLE;
         $phone = $data[self::COL_PHONE];
         $email = $data[self::COL_EMAIL];
         $dinners = $this->renderDinnersList($data);
-        $tshirts = $this->renderTshirtList($data);;
-
+        $tshirts = $this->renderTshirtList($data);
+        $competitor = $data[self::COL_COMPETING];
+        if($competitor == 'Yes') {
+            $division = $this->getDivision($data);
+            //$division = 'Divisions announced during the tournament';
+        } else {
+            $division = 'Not competing';
+            //$division = 'Divisions announced during the tournament';
+        }
+        $division = '';
+        $this->pdf->wtsdaLogo = file_get_contents(__DIR__ . '/../assets/wtsda.gif');
         $html = <<<TABLE
 <table style="height: 1000px;">
     <tbody>
         <tr>
             <td style="width: 65%;">
                 <b>$title</b> (WTSDA #: $assocNum)<br>
-                <hr style="color:$color; width: 100%; height: 7px; border: 1px solid black;">
-                <br><br>
-                Competition Information
+                <hr style="color:$color; width: 100%; height: 7px;">
+                <br>
+                Competitor Information
                 <hr>
-                <b>Studio:</b> $studio <br>
-                <b>Rank:</b> $rank <br>
-                <b>Age:</b> $age [ $dob ] <br>
-                <b>Gender:</b> $gender <br>
+                <table class="white">
+                    <tr class="white">
+                        <td class="white"><b>Studio:</b> $studio</td>
+                        <td class="white" rowspan="4" align="right"><img src="var:wtsdaLogo" style="width: 75px; height: 75px;"></td>
+                    </tr>
+                    <tr class="white">
+                        <td class="white"><b>Rank:</b> $rank</td>
+                    </tr>
+                    <tr class="white">
+                        <td class="white"><b>Age:</b> $age [ $dob ]</td>
+                    </tr>
+                    <tr class="white">
+                        <td class="white"><b>Gender:</b> $gender</td>
+                    </tr>
+                    <tr class="white">
+                        <td class="white"><b>Division:</b> <br/>
+                        $division</td>
+                    </tr>
+                </table>
                 <br>
                 Contact Information
                 <hr>
@@ -140,10 +184,10 @@ TABLE;
 
         $html = '';
         for($i = 0; $i < $adultDinnerCount; $i++) {
-            $html .= '<div style="background-color: lightseagreen; width: 300px;">Adult Dinner Ticket</div>';
+            $html .= '<div class="extras adultDinner">&nbsp;&nbsp;Adult Dinner Ticket&nbsp;&nbsp;</div>';
         }
         for($i = 0; $i < $childDinnerCount; $i++) {
-            $html .= '<div style="background-color: lightgreen; width: 300px;">Child Dinner Ticket</div>';
+            $html .= '<div class="extras childDinner">&nbsp;&nbsp;Child Dinner Ticket&nbsp;&nbsp;</div>';
         }
         return $html;
     }
@@ -160,47 +204,62 @@ TABLE;
 
         $html = '';
         for($i = 0; $i < $tChildSCount; $i++) {
-            $html .= '<div style="background-color: lightgrey; width: 300px;">T-Shirt: Child Small</div>';
+            $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Child Small&nbsp;&nbsp;</div>';
         }
         for($i = 0; $i < $tChildMCount; $i++) {
-            $html .= '<div style="background-color: lightgrey; width: 300px;">T-Shirt: Child Medium</div>';
+            $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Child Medium&nbsp;&nbsp;</div>';
         }
         for($i = 0; $i < $tChildLCount; $i++) {
-            $html .= '<div style="background-color: lightgrey; width: 300px;">T-Shirt: Child Large</div>';
+            $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Child Large&nbsp;&nbsp;</div>';
         }
         for($i = 0; $i < $tAdultSCount; $i++) {
-            $html .= '<div style="background-color: lightgrey; width: 300px;">T-Shirt: Adult Small</div>';
+            $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Adult Small&nbsp;&nbsp;</div>';
         }
         for($i = 0; $i < $tAdultMCount; $i++) {
-            $html .= '<div style="background-color: lightgrey; width: 300px;">T-Shirt: Adult Medium</div>';
+            $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Adult Medium&nbsp;&nbsp;</div>';
         }
         for($i = 0; $i < $tAdultLCount; $i++) {
-            $html .= '<div style="background-color: lightgrey; width: 300px;">T-Shirt: Adult Large</div>';
+            $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Adult Large&nbsp;&nbsp;</div>';
         }
         for($i = 0; $i < $tAdultXLCount; $i++) {
-            $html .= '<div style="background-color: lightgrey; width: 300px;">T-Shirt: Adult XL</div>';
+            $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Adult XL&nbsp;&nbsp;</div>';
         }
         for($i = 0; $i < $tAdultXXLCount; $i++) {
-            $html .= '<div style="background-color: lightgrey; width: 300px;">T-Shirt: Adult XXL</div>';
+            $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Adult XXL&nbsp;&nbsp;</div>';
         }
         return $html;
+    }
+
+    public function getDivision($data)
+    {
+        $lname = str_replace(' ', '', $data[self::COL_LNAME]);
+        $fname = str_replace(' ', '', $data[self::COL_FNAME]);
+        $regId = $data[self::COL_REGID];
+        $sessKey = $lname.'_'.$fname . '_' . $regId;
+
+        $divInfo = $_SESSION[$sessKey];
+        if(empty($divInfo['divId']) || empty($divInfo['divName']) || $divInfo['divId'] == 'X-00') {
+            return 'NO DIVISION. INFORM TOURNAMENT HOST';
+        }
+        return "[{$divInfo['divId']}] {$divInfo['divName']}";
     }
 
     public function buildDataFromFile() {
         $line = 0;
         if (($handle = fopen($this->inputFile, 'r')) !== false) {
-            while (($data = fgetcsv($handle, 1000, ",")) !== false) {
+            while (($data = fgetcsv($handle, self::CSV_LINE_LENGTH, ",")) !== false) {
                 if($line == 0) {
                     $line++;
                     continue;
                 }
                 $lname = str_replace(' ', '', $data[self::COL_LNAME]);
                 $fname = str_replace(' ', '', $data[self::COL_FNAME]);
-                $this->data[$lname.'_'.$fname] = $data;
+                $redId = $data[self::COL_REGID];
+                $this->data[$lname.'_'.$fname . '_' . $redId] = $data;
             }
             fclose($handle);
         }
-        ksort($this->data);
+        //ksort($this->data);
     }
 
 }

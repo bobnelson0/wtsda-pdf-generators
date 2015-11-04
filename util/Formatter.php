@@ -11,6 +11,7 @@ namespace util;
 use reportGenerators\AbstractGenerator;
 
 class Formatter {
+
     public static function formatRank($rank) {
         if($rank == 'Tiny Tiger/Little Dragon') {
             return 'TT/LD';
@@ -24,12 +25,12 @@ class Formatter {
         return $address;
     }
 
-    public static function formatOfficialTitle($data) {
+    public static function formatOfficialTitle($data, $includeTitle = true) {
         $title = '';
         $title = $data[AbstractGenerator::COL_LNAME] . ', ' . $data[AbstractGenerator::COL_FNAME];
         $rank = $data[AbstractGenerator::COL_RANK];
         $gender = $data[AbstractGenerator::COL_GENDER];
-        $age = \util\Converter::dobToAge($data[AbstractGenerator::COL_DOB]);
+        $age = 0;//\util\Converter::dobToAge($data[AbstractGenerator::COL_DOB]);
         $masters = array(
             'Sah Dan (Master)',
             'Oh Dan',
@@ -45,17 +46,19 @@ class Formatter {
             'Sah Dan'
         );
 
-        if(in_array($rank, $masters)) {
-            $title = 'Master ' . $title;
-        } else if(in_array($rank, $dans)) {
-            if($gender == 'Female') {
-                if($age <= 18) {
-                    $title = 'Ms. ' . $title;
+        if($includeTitle) {
+            if (in_array($rank, $masters)) {
+                $title = 'Master ' . $title;
+            } else if (in_array($rank, $dans)) {
+                if ($gender == 'Female') {
+                    if ($age < 18) {
+                        $title = 'Ms. ' . $title;
+                    } else {
+                        $title = 'Mrs. ' . $title;
+                    }
                 } else {
-                    $title = 'Mrs. ' . $title;
+                    $title = 'Mr. ' . $title;
                 }
-            } else {
-                $title = 'Mr. ' . $title;
             }
         }
         return $title;

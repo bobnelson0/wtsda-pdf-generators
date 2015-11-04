@@ -14,6 +14,7 @@ require_once 'Formatter.php';
 
 abstract class AbstractGenerator {
 
+    const COL_REGID = 3;
     const COL_FNAME = 4;
     const COL_LNAME = 5;
     const COL_ADDRESS = 6;
@@ -43,6 +44,8 @@ abstract class AbstractGenerator {
     const COL_TSHIRT_ADULT_XXL = 32;
     const COL_DATE_REGISTERED = 35;
     const COL_CONFIRM_ID = 45;
+
+    const CSV_LINE_LENGTH = 1024;
 
 
     protected $inputFile = null;
