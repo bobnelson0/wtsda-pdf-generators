@@ -29,8 +29,17 @@ class Converter {
 
     public static function dobToAge($dob) {
         try {
-            $from = new \DateTime($dob);
-            $to = new \DateTime('today');
+            $dob = explode('/', $dob);
+            $from = new \DateTime();
+            if(strlen($dob[2]) == 2) {
+                if ($dob[2] <= 99 && $dob[2] >= (date('y') - 4)) {
+                    $dob[2] = '19' . $dob[2];
+                } else {
+                    $dob[2] = '20' . $dob[2];
+                }
+            }
+            $from->setDate($dob[2], $dob[0], $dob[1]);
+            $to = new \DateTime();
             return $from->diff($to)->y;
         } catch (\Exception $e) {
             return 0;

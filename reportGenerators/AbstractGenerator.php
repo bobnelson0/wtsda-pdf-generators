@@ -8,6 +8,7 @@
 namespace reportGenerators;
 
 
+require_once 'CompetitorDivisionTemplates.php';
 require_once 'Converter.php';
 require_once 'Sorter.php';
 require_once 'Formatter.php';

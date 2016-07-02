@@ -73,7 +73,7 @@ STYLE;
     }
 
     public function renderCoverPage() {
-        $html = "<h1>2015 Region1 Championship Studio Report</h1>";
+        $html = "<h1>" . date("Y") ." Region 1 Championship Studio Report</h1>";
         $html .= <<<TABLEHEAD
 <table>
     <thead>

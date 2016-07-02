@@ -203,6 +203,7 @@ TABLE;
         $tAdultXXLCount = $data[self::COL_TSHIRT_ADULT_XXL];
 
         $html = '';
+        return $html; // 2016, no t-shirts online
         for($i = 0; $i < $tChildSCount; $i++) {
             $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Child Small&nbsp;&nbsp;</div>';
         }
@@ -259,7 +260,7 @@ TABLE;
             }
             fclose($handle);
         }
-        //ksort($this->data);
+        ksort($this->data);
     }
 
 }

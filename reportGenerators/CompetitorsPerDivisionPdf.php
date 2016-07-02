@@ -8,6 +8,7 @@
 namespace reportGenerators;
 
 use App\Util\Convert;
+use util\CompetitorDivisionTemplates;
 use util\Converter;
 use util\Sorter;
 
@@ -80,7 +81,7 @@ STYLE;
     }
 
     public function renderCoverPage() {
-        $html = "<h1>2015 Region1 Championship Divisions</h1>";
+        $html = "<h1>" . date("Y") ." Region 1 Championship Divisions</h1>";
 
         $html .= <<<TABLEHEAD
 <table>
@@ -125,8 +126,10 @@ TABLEHEAD;
     <tbody>
 TABLEHEAD;
         $data = \util\Sorter::sortStudentsForStudioReport($data);
-        foreach($data as $d) {
-            $html .= $this->renderRow($d);
+        if(!empty($data)) {
+            foreach($data as $d) {
+                $html .= $this->renderRow($d);
+            }
         }
         $html .= '</tbody></table>';
 
@@ -249,7 +252,7 @@ ROW;
 
         // Special divisions
         //G-15
-        $this->divisions['male:RED02:CDB00:12:16'] = array(
+        /*$this->divisions['male:RED02:CDB00:12:16'] = array(
             'id' => 'G-15',
             'name' => 'Boys: Red: Ages 12-16/Blue: Ages 13-14',
             'competitors' => array_merge(
@@ -296,6 +299,7 @@ ROW;
         }
         unset($this->divisions['female:BROWN04:BROWN03:11:11:G-12a']);
         unset($this->divisions['female:RED02:RED01:11:12:G-12b']);
+        */
 
         if(is_array($_SESSION['doubles'])) {
             foreach ($_SESSION['doubles'] as $key => $value) {
@@ -404,6 +408,7 @@ ROW;
 
     public function getDivisionDefinitions()
     {
+        return CompetitorDivisionTemplates::getDivisions();
         return array(
             // TTLD Divisions
             'all:TTLD00:TTLD00:0:8:G-01',
