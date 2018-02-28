@@ -111,13 +111,11 @@ TABLE;
                 }
                 $lname = str_replace(' ', '', $data[self::COL_LNAME]);
                 $fname = str_replace(' ', '', $data[self::COL_FNAME]);
-                $this->data[$lname.'_'.$fname] = $data;
+                $regId = $data[self::COL_REGID];
+                $this->data[strtoupper($lname.'_'.$fname . '_' . $regId)] = $data;
             }
             fclose($handle);
         }
         ksort($this->data);
-        //array_pop($this->data);
-        //array_pop($this->data);
-        //array_pop($this->data);
     }
 }

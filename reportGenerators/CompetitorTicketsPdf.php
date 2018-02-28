@@ -121,13 +121,13 @@ STYLE;
         $tshirts = $this->renderTshirtList($data);
         $competitor = $data[self::COL_COMPETING];
         if($competitor == 'Yes') {
-            $division = $this->getDivision($data);
-            //$division = 'Divisions announced during the tournament';
+            //$division = $this->getDivision($data);
+            $division = 'Check with tournament host';
         } else {
             $division = 'Not competing';
             //$division = 'Divisions announced during the tournament';
         }
-        $division = '';
+
         $this->pdf->wtsdaLogo = file_get_contents(__DIR__ . '/../assets/wtsda.gif');
         $html = <<<TABLE
 <table style="height: 1000px;">
@@ -203,7 +203,7 @@ TABLE;
         $tAdultXXLCount = $data[self::COL_TSHIRT_ADULT_XXL];
 
         $html = '';
-        return $html; // 2016, no t-shirts online
+        //return $html; // 2016, no t-shirts online
         for($i = 0; $i < $tChildSCount; $i++) {
             $html .= '<div class="extras tshirt">&nbsp;&nbsp;T-Shirt: Child Small&nbsp;&nbsp;</div>';
         }
@@ -255,8 +255,8 @@ TABLE;
                 }
                 $lname = str_replace(' ', '', $data[self::COL_LNAME]);
                 $fname = str_replace(' ', '', $data[self::COL_FNAME]);
-                $redId = $data[self::COL_REGID];
-                $this->data[$lname.'_'.$fname . '_' . $redId] = $data;
+                $regId = $data[self::COL_REGID];
+                $this->data[strtoupper($lname.'_'.$fname . '_' . $regId)] = $data;
             }
             fclose($handle);
         }

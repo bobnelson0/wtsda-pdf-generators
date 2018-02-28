@@ -20,26 +20,30 @@ require_once './reportGenerators/CompetitorListPdf.php';
 require_once './reportGenerators/CompetitorsPerDivisionPdf.php';
 require_once './reportGenerators/DinnerAttendanceListPdf.php';
 
-//Run generator here
+// Set Date
 $date = date('Y-m-d_H.i.s');
-$report = new \reportGenerators\StudioAttendancePdf('./data/input.csv', './data/StudioAttendance_' . $date . '.pdf');
 
-//Run generator here
-$date = date('Y-m-d_H.i.s');
-$report = new \reportGenerators\CompetitorsPerDivisionPdf('./data/input.csv', './data/CompetitorDivisions' . $date . '.pdf');
+// Run generator here
+echo "Generating studio attendance report ($date)\n";
+$report = new \reportGenerators\StudioAttendancePdf('./data/input.csv', './data/Studio.Attendance.' . $date . '.pdf');
 
-//Run generator here
-$date = date('Y-m-d_H.i.s');
-$report = new \reportGenerators\CompetitorListPdf('./data/input.csv', './data/CompetitorList' . $date . '.pdf');
+// Run generator here
+/*echo "Generating divisions report ($date)\n";
+$report = new \reportGenerators\CompetitorsPerDivisionPdf('./data/input.csv', './data/Competitor.Divisions.' . $date . '.pdf');
 
-//Run generator here
-$date = date('Y-m-d_H.i.s');
-$report = new \reportGenerators\CompetitorTicketsPdf('./data/input.csv', './data/CompetitorTickets' . $date . '.pdf');
+// Run generator here
+echo "Generating competitor list ($date)\n";
+$report = new \reportGenerators\CompetitorListPdf('./data/input.csv', './data/Competitor.List.' . $date . '.pdf');
 
-//Run generator here
-$date = date('Y-m-d_H.i.s');
-$report = new \reportGenerators\DinnerAttendanceListPdf('./data/input.csv', './data/DinnerAttendanceList' . $date . '.pdf');
+// Run generator here
+echo "Generating tickets ($date)\n";
+$report = new \reportGenerators\CompetitorTicketsPdf('./data/input.csv', './data/Competitor.Tickets.' . $date . '.pdf');
 
+// Run generator here
+echo "Generating dinner attendees report ($date)\n";
+$report = new \reportGenerators\DinnerAttendanceListPdf('./data/input.csv', './data/Dinner.Attendance.List.' . $date . '.pdf');*/
+
+// Clean up
 session_destroy();
 $elapsed = time() - $start;
 

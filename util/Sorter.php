@@ -16,8 +16,8 @@ class Sorter {
         usort($data, function($first, $second) {
             $rankFirst = $first[AbstractGenerator::COL_RANK];
             $rankSecond = $second[AbstractGenerator::COL_RANK];
-            $nameFirst = $first[AbstractGenerator::COL_LNAME].$first[AbstractGenerator::COL_FNAME];
-            $nameSecond = $second[AbstractGenerator::COL_LNAME].$second[AbstractGenerator::COL_FNAME];
+            $nameFirst = strtoupper($first[AbstractGenerator::COL_LNAME].$first[AbstractGenerator::COL_FNAME]);
+            $nameSecond = strtoupper($second[AbstractGenerator::COL_LNAME].$second[AbstractGenerator::COL_FNAME]);
 
             return strcmp($nameFirst, $nameSecond);
             $compRanks = strcmp($rankFirst, $rankSecond);

@@ -35,9 +35,10 @@ class CompetitorsPerDivisionPdf extends AbstractGenerator {
         $this->renderHeader();
         $this->renderCoverPage();
         foreach($this->divisions as $divKey => $division) {
+            $competitorCount = count($division['competitors']);
             $this->pdf->AddPage();
             $this->pdf->Bookmark("{$division['id']} : {$division['name']}");
-            $this->pdf->WriteHTML("<h1>{$division['id']} : {$division['name']}</h1>");
+            $this->pdf->WriteHTML("<h1>{$division['id']} : {$division['name']}<br>$competitorCount competitors</h1>");
             $this->renderTable($division['competitors']);
         }
         $this->pdf->WriteHTML("<br>Duplicate info:<br>");
@@ -53,7 +54,7 @@ class CompetitorsPerDivisionPdf extends AbstractGenerator {
         $html = <<<STYLE
 <style>
 body {
-    font-family: sans; font-size: 8pt;
+    font-family: sans; font-size: 11pt;
 }
 table, thead, tbody, tr, td {
     border: 1px solid black;
@@ -84,22 +85,34 @@ STYLE;
         $html = "<h1>" . date("Y") ." Region 1 Championship Divisions</h1>";
 
         $html .= <<<TABLEHEAD
-<table>
+<table style="font-size:13pt;">
     <thead>
         <tr>
             <th scope="col" style="width:20px;"> </th>
             <th scope="col" style="width:50px;">ID</th>
             <th scope="col">Division</th>
-            <th scope="col">Competitors</th>
+            <th scope="col" style="width:140px;">Competitors</th>
         </tr>
     </thead>
     <tbody>
 TABLEHEAD;
         foreach($this->divisions as $divKey => $division) {
             $competitorCount = count($division['competitors']);
-            if($competitorCount <= 2 || $competitorCount >= 11) $color = 'red';
-            elseif($competitorCount <= 3 || $competitorCount >= 10) $color = 'yellow';
+            if($competitorCount <= 2 || $competitorCount >= 12) $color = 'red';
+            elseif($competitorCount <= 3 || $competitorCount >= 11) $color = 'yellow';
             else $color = 'white';
+
+            if($division['id'] == 'X-00' || $division['id'] == 'X-01') {
+                $color = 'white';
+                if($competitorCount > 0) {
+                    $color = 'red';
+                }
+            }
+
+            if($division['id'] == 'N-00') {
+                $color = 'white';
+            }
+            $color = 'white';
 
             $html .= "<tr style=\"background-color: $color;\"><td></td><td>{$division['id']}</td><td>{$division['name']}</td><td>$competitorCount</td></tr>";
         }
@@ -182,13 +195,13 @@ ROW;
         //print_r($this->data);
         //exit;
 
-        $this->sortIntoDivions();
+        $this->sortIntoDivisions();
         //print_r($this->divisions);
         //exit;
 
     }
 
-    public function sortIntoDivions() {
+    public function sortIntoDivisions() {
         $this->divisions = $this->getDivisions();
 
         foreach($this->data as $key => $competitor) {
@@ -409,51 +422,5 @@ ROW;
     public function getDivisionDefinitions()
     {
         return CompetitorDivisionTemplates::getDivisions();
-        return array(
-            // TTLD Divisions
-            'all:TTLD00:TTLD00:0:8:G-01',
-
-            /* Gup Divisions */
-            'female:WHITE10:GREEN05:0:8:G-02',
-            'male:WHITE10:ORANGE07:0:8:G-03',
-            'male:WHITE10:ORANGE07:9:12:G-04',
-            'female:WHITE10:GREEN05:17:120:G-05',
-            'male:WHITE10:GREEN05:17:120:G-06',
-
-            'male:GREEN06:BROWN04:0:8:G-07', //3rd gup?
-            'male:GREEN06:GREEN05:9:11:G-08',
-            'female:GREEN06:BROWN03:12:13:G-09', //used to be 10-13. Cece?
-            'male:GREEN06:BROWN03:12:13:G-10',
-
-            'female:BROWN04:RED01:7:10:G-11',
-            //G12-Brown 11: Red 11-12: Girls
-            'female:BROWN04:BROWN03:11:11:G-12a', //used to be all red
-            'female:RED02:RED01:11:12:G-12b', //used to be all red
-            'male:BROWN04:RED01:9:11:G-13', // used to be all brown
-
-            'female:RED02:CDB00:13:16:G-14',
-            'male:RED02:RED01:12:16:G-15a', // special group?
-            'male:CDB00:CDB00:13:14:G-15b', // special group?
-
-            'female:BROWN04:RED01:17:120:G-16',
-            'male:BROWN04:RED01:17:120:G-17',
-
-            'female:CDB00:CDB00:9:12:G-18',
-            'male:CDB00:CDB00:7:12:G-19',
-            //'male:RED02:CDB00:12:12',
-            'female:CDB00:CDB00:17:120:G-20',
-            'male:CDB00:CDB00:17:120:G-21',
-
-
-            // Dans Divisions
-            'male:DAN01:DAN03:13:16:D-01',
-            'female:DAN01:DAN03:13:16:D-02',
-
-            'male:DAN01:DAN03:17:34:D-03',
-            'female:DAN01:DAN03:17:34:D-04',
-
-            'male:DAN01:DAN03:35:120:D-05',
-            'female:DAN01:DAN03:35:120:D-06',
-        );
     }
 }

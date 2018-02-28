@@ -136,18 +136,14 @@ TABLE;
                     continue;
                 }
 
-                //$studio = str_replace(' ', '', $data[self::COL_STUDIO]);
                 $lname = str_replace(' ', '', $data[self::COL_LNAME]);
                 $fname = str_replace(' ', '', $data[self::COL_FNAME]);
                 $regId = $data[self::COL_REGID];
-                $this->data[$lname.'_'.$fname.'_'.$regId] = $data;
+                $this->data[strtoupper($lname.'_'.$fname . '_' . $regId)] = $data;
             }
             fclose($handle);
         }
         ksort($this->data);
-        //array_pop($this->data);
-        //array_pop($this->data);
-        //array_pop($this->data);
     }
 
     public function getDivision($data)
