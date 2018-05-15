@@ -27,8 +27,10 @@ class CompetitorListPdf extends AbstractGenerator {
         $this->renderHeader();
         $counter = 1;
         $helper = 1;
+        $altColor = false;
         foreach($this->data as $student) {
-            $this->renderRow($student);
+            $this->renderRow($student, $altColor);
+	        $altColor = !$altColor;
             $counter++;
             if($counter > 500) {
                 $counter = 1;
@@ -41,6 +43,8 @@ class CompetitorListPdf extends AbstractGenerator {
     }
 
     public function renderHeader() {
+
+	    $year = date("Y");
         $html = <<<STYLE
 <style>
 body {
@@ -48,6 +52,9 @@ body {
 }
 table, thead, tbody, tr, td {
     border: 1px solid black;
+}
+tr.alt {
+    background-color: lightgrey;
 }
 th {
     text-align: left;
@@ -64,13 +71,14 @@ td {
     vertical-align: top;
 }
 </style>
+<h1>$year WTSDA:R1 Championship Check-in</h1>
 <table>
     <thead>
         <tr>
-            <th scope="col" style="width:20px;"> </th>
+            <th scope="col" style="width:20px;text-align: center">&#10004;</th>
             <th scope="col">Name</th>
             <th scope="col">Studio</th>
-            <th scope="col" style="width:20px;"> </th>
+            <!-- <th scope="col" style="width:20px;"> </th> -->
             <th scope="col">Division</th>
             <th scope="col">Rank</th>
             <th scope="col">Age</th>
@@ -88,7 +96,7 @@ STYLE;
         $this->pdf->writeHTML($html);
     }
 
-    public function renderRow($data) {
+    public function renderRow($data, $altColor = false) {
         $title = \util\Formatter::formatOfficialTitle($data, $includeTitle = false);
         $studio = $data[self::COL_STUDIO];
         $rank = $data[self::COL_RANK];
@@ -111,12 +119,16 @@ STYLE;
             $division = 'Not competing';
             //$division = 'Divisions announced during the tournament';
         }
+	    $trClass = '';
+	    if ($altColor) {
+		    $trClass = 'class="alt"';
+	    }
         $html = <<<TABLE
-<tr>
+<tr $trClass>
     <td> </td>
     <td>$title</td>
     <td>$studio</td>
-    <td style="background-color: $color;"> </td>
+    <!-- <td style="background-color: $color;"> </td> -->
     <td>$division</td>
     <td>$rank</td>
     <td>$age</td>

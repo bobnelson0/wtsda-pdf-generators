@@ -78,19 +78,22 @@ hr.cutline {
     margin: 10px 0;
 }
 div.extras {
-    width: 1000px;
+    width: 1500px;
     height: 30px;
     font-size: 14px;
     position:relative;
 }
 div.tshirt {
-    background-color: lightgrey;
+    /*background-color: lightgrey;*/
+    border: 1px solid black;
 }
 div.adultDinner {
-    background-color: lightseagreen;
+    /*background-color: lightseagreen;*/
+    border: 1px solid black;
 }
 div.childDinner {
-    background-color: lightgreen;
+    /*background-color: lightgreen;*/
+    border: 1px solid black;
 }
 </style>
 STYLE;
@@ -120,6 +123,7 @@ STYLE;
         $dinners = $this->renderDinnersList($data);
         $tshirts = $this->renderTshirtList($data);
         $competitor = $data[self::COL_COMPETING];
+        $regDate = date("M-d, h:ia",strtotime($data[self::COL_DATE_REGISTERED]));
         if($competitor == 'Yes') {
             //$division = $this->getDivision($data);
             $division = 'Check with tournament host';
@@ -128,13 +132,13 @@ STYLE;
             //$division = 'Divisions announced during the tournament';
         }
 
-        $this->pdf->wtsdaLogo = file_get_contents(__DIR__ . '/../assets/wtsda.gif');
+        $this->pdf->wtsdaLogo = file_get_contents(__DIR__ . '/../assets/wtsda-logo.jpg');
         $html = <<<TABLE
 <table style="height: 1000px;">
     <tbody>
         <tr>
             <td style="width: 65%;">
-                <b>$title</b> (WTSDA #: $assocNum)<br>
+                <b>$title</b> <!-- (WTSDA #: $assocNum)--> (Reg. Date: $regDate)<br>
                 <hr style="color:$color; width: 100%; height: 7px;">
                 <br>
                 Competitor Information
@@ -142,7 +146,7 @@ STYLE;
                 <table class="white">
                     <tr class="white">
                         <td class="white"><b>Studio:</b> $studio</td>
-                        <td class="white" rowspan="4" align="right"><img src="var:wtsdaLogo" style="width: 75px; height: 75px;"></td>
+                        <td class="white" rowspan="4" align="right"><img src="var:wtsdaLogo" style="width: 100px; height: 100px;"></td>
                     </tr>
                     <tr class="white">
                         <td class="white"><b>Rank:</b> $rank</td>
@@ -181,14 +185,18 @@ TABLE;
     public function renderDinnersList($data) {
         $adultDinnerCount = $data[self::COL_DINNER_ADULT];
         $childDinnerCount = $data[self::COL_DINNER_CHILD];
+        $childFreeDinnerCount = $data[self::COL_DINNER_CHILD_FREE];
 
         $html = '';
         for($i = 0; $i < $adultDinnerCount; $i++) {
-            $html .= '<div class="extras adultDinner">&nbsp;&nbsp;Adult Dinner Ticket&nbsp;&nbsp;</div>';
+            $html .= '<div class="extras adultDinner">&nbsp;&nbsp;Dinner: Adult Ticket&nbsp;&nbsp;</div>';
         }
         for($i = 0; $i < $childDinnerCount; $i++) {
-            $html .= '<div class="extras childDinner">&nbsp;&nbsp;Child Dinner Ticket&nbsp;&nbsp;</div>';
+            $html .= '<div class="extras childDinner">&nbsp;&nbsp;Dinner: Child Ticket&nbsp;&nbsp;</div>';
         }
+	    for($i = 0; $i < $childFreeDinnerCount; $i++) {
+		    $html .= '<div class="extras childDinner">&nbsp;&nbsp;Dinner: Child Ticket (under 5)&nbsp;&nbsp;</div>';
+	    }
         return $html;
     }
 
@@ -253,14 +261,28 @@ TABLE;
                     $line++;
                     continue;
                 }
+
+                $regDate = $data[self::COL_ADDRESS];
                 $lname = str_replace(' ', '', $data[self::COL_LNAME]);
                 $fname = str_replace(' ', '', $data[self::COL_FNAME]);
                 $regId = $data[self::COL_REGID];
-                $this->data[strtoupper($lname.'_'.$fname . '_' . $regId)] = $data;
+
+                // Sort by name
+                //$this->data[strtoupper($lname.'_'.$fname . '_' . $regId)] = $data;
+                //$sortType = 'asc';
+
+                // Sort by registration date (DESC)
+                $this->data[$regId] = $data;
+                $sortType = 'desc';
             }
             fclose($handle);
         }
-        ksort($this->data);
+
+        if ($sortType = 'desc') {
+            krsort($this->data);
+        } else {
+            ksort($this->data);
+        }
     }
 
 }

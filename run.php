@@ -4,6 +4,8 @@
  * Date: 2015-03-02
  * Time: 3:49 PM
  */
+date_default_timezone_set('America/Los_Angeles');
+
 $start = time();
 session_start();
 
@@ -25,11 +27,11 @@ $date = date('Y-m-d_H.i.s');
 
 // Run generator here
 echo "Generating studio attendance report ($date)\n";
-$report = new \reportGenerators\StudioAttendancePdf('./data/input.csv', './data/Studio.Attendance.' . $date . '.pdf');
+//$report = new \reportGenerators\StudioAttendancePdf('./data/input.csv', './data/Studio.Attendance.' . $date . '.pdf');
 
 // Run generator here
-/*echo "Generating divisions report ($date)\n";
-$report = new \reportGenerators\CompetitorsPerDivisionPdf('./data/input.csv', './data/Competitor.Divisions.' . $date . '.pdf');
+echo "Generating divisions report ($date)\n";
+//$report = new \reportGenerators\CompetitorsPerDivisionPdf('./data/input.csv', './data/Competitor.Divisions.' . $date . '.pdf');
 
 // Run generator here
 echo "Generating competitor list ($date)\n";
@@ -37,11 +39,11 @@ $report = new \reportGenerators\CompetitorListPdf('./data/input.csv', './data/Co
 
 // Run generator here
 echo "Generating tickets ($date)\n";
-$report = new \reportGenerators\CompetitorTicketsPdf('./data/input.csv', './data/Competitor.Tickets.' . $date . '.pdf');
+//$report = new \reportGenerators\CompetitorTicketsPdf('./data/input.csv', './data/Competitor.Tickets.' . $date . '.pdf');
 
 // Run generator here
 echo "Generating dinner attendees report ($date)\n";
-$report = new \reportGenerators\DinnerAttendanceListPdf('./data/input.csv', './data/Dinner.Attendance.List.' . $date . '.pdf');*/
+//$report = new \reportGenerators\DinnerAttendanceListPdf('./data/input.csv', './data/Dinner.Attendance.List.' . $date . '.pdf');
 
 // Clean up
 session_destroy();

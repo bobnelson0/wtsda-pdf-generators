@@ -35,16 +35,18 @@ abstract class AbstractGenerator {
     const COL_COMPETING = 22;
     const COL_DINNER_ADULT = 23;
     const COL_DINNER_CHILD = 24;
-    const COL_TSHIRT_CHILD_S = 25;
-    const COL_TSHIRT_CHILD_M = 26;
-    const COL_TSHIRT_CHILD_L = 27;
-    const COL_TSHIRT_ADULT_S = 28;
-    const COL_TSHIRT_ADULT_M = 29;
-    const COL_TSHIRT_ADULT_L = 30;
-    const COL_TSHIRT_ADULT_XL = 31;
-    const COL_TSHIRT_ADULT_XXL = 32;
-    const COL_DATE_REGISTERED = 35;
-    const COL_CONFIRM_ID = 45;
+    const COL_DINNER_CHILD_FREE = 25;
+    const COL_TSHIRT_CHILD_S = 26;
+    const COL_TSHIRT_CHILD_M = 27;
+    const COL_TSHIRT_CHILD_L = 28;
+    const COL_TSHIRT_ADULT_S = 29;
+    const COL_TSHIRT_ADULT_M = 30;
+    const COL_TSHIRT_ADULT_L = 31;
+    const COL_TSHIRT_ADULT_XL = 32;
+    const COL_TSHIRT_ADULT_XXL = 33;
+    const COL_DATE_REGISTERED = 34;
+    const COL_CONFIRM_ID = 44;
+    const COL_STATUS = 48;
 
     const CSV_LINE_LENGTH = 1024;
 

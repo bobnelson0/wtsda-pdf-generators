@@ -82,7 +82,7 @@ STYLE;
     }
 
     public function renderCoverPage() {
-        $html = "<h1>" . date("Y") ." Region 1 Championship Divisions</h1>";
+        $html = "<h1>" . date("Y") ." WTSDA:R1 Championship Divisions</h1>";
 
         $html .= <<<TABLEHEAD
 <table style="font-size:13pt;">
