@@ -45,6 +45,7 @@ abstract class AbstractGenerator {
     const COL_TSHIRT_ADULT_XL = 32;
     const COL_TSHIRT_ADULT_XXL = 33;
     const COL_DATE_REGISTERED = 34;
+	const COL_AMOUNT_OWED = 41;
     const COL_CONFIRM_ID = 44;
     const COL_STATUS = 48;
 

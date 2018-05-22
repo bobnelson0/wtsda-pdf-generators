@@ -88,7 +88,7 @@ STYLE;
 <table style="font-size:13pt;">
     <thead>
         <tr>
-            <th scope="col" style="width:20px;"> </th>
+            <th scope="col" style="width:20px;">&#10004;</th>
             <th scope="col" style="width:50px;">ID</th>
             <th scope="col">Division</th>
             <th scope="col" style="width:140px;">Competitors</th>
@@ -96,10 +96,13 @@ STYLE;
     </thead>
     <tbody>
 TABLEHEAD;
+
         foreach($this->divisions as $divKey => $division) {
             $competitorCount = count($division['competitors']);
-            if($competitorCount <= 2 || $competitorCount >= 12) $color = 'red';
-            elseif($competitorCount <= 3 || $competitorCount >= 11) $color = 'yellow';
+
+            if(strpos($division['id'], 'D-') !== false) $color = 'lightgrey';
+            else if($competitorCount <= 2 || $competitorCount >= 12) $color = 'red';
+            else if($competitorCount <= 3 || $competitorCount >= 11) $color = 'yellow';
             else $color = 'white';
 
             if($division['id'] == 'X-00' || $division['id'] == 'X-01') {
@@ -112,7 +115,6 @@ TABLEHEAD;
             if($division['id'] == 'N-00') {
                 $color = 'white';
             }
-            $color = 'white';
 
             $html .= "<tr style=\"background-color: $color;\"><td></td><td>{$division['id']}</td><td>{$division['name']}</td><td>$competitorCount</td></tr>";
         }
@@ -380,6 +382,7 @@ ROW;
             'name' => 'More than one division',
             'competitors' => array()
         );
+
         return $divisions;
     }
 
@@ -404,6 +407,10 @@ ROW;
             $rmin = current(explode(" (", Converter::numberToRank(Converter::getRankNumberFromConst('RANK_'.$rmin)), 2));
             $rmax = current(explode(" (", Converter::numberToRank(Converter::getRankNumberFromConst('RANK_'.$rmax)), 2));
             $ranks = "$rmin - $rmax";
+        }
+
+        if ($ranks == 'Tiny Tiger/Little Dragon') {
+        	$ranks = 'TT/LD';
         }
 
         if($amin == 0) {

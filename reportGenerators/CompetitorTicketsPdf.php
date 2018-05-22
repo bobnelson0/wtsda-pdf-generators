@@ -14,6 +14,16 @@ require_once 'AbstractGenerator.php';
 
 class CompetitorTicketsPdf extends AbstractGenerator {
 
+	const SORT_ALPHA = 'alpha';
+	const SORT_REGDATE = 'regDate';
+
+	public $sort;
+
+	public function __construct($input, $output, $sort = self::SORT_ALPHA) {
+		$this->sort = $sort;
+		parent::__construct($input, $output);
+	}
+
     public function setReportProperties() {
         // set document information
         //$this->pdf->SetCreator();
@@ -146,7 +156,7 @@ STYLE;
                 <table class="white">
                     <tr class="white">
                         <td class="white"><b>Studio:</b> $studio</td>
-                        <td class="white" rowspan="4" align="right"><img src="var:wtsdaLogo" style="width: 100px; height: 100px;"></td>
+                        <td class="white" rowspan="4" align="right"><img src="var:wtsdaLogo" style="width: 75px; height: 75px;"></td>
                     </tr>
                     <tr class="white">
                         <td class="white"><b>Rank:</b> $rank</td>
@@ -255,6 +265,17 @@ TABLE;
 
     public function buildDataFromFile() {
         $line = 0;
+
+        if ($this->sort == self::SORT_REGDATE) {
+	        // Newest to oldest
+	        $sortType = 'regDate';
+	        $sortDir = 'desc';
+        } else {
+	        // Alphabetical
+	        $sortType = 'alpha';
+	        $sortDir = 'asc';
+        }
+
         if (($handle = fopen($this->inputFile, 'r')) !== false) {
             while (($data = fgetcsv($handle, self::CSV_LINE_LENGTH, ",")) !== false) {
                 if($line == 0) {
@@ -267,18 +288,17 @@ TABLE;
                 $fname = str_replace(' ', '', $data[self::COL_FNAME]);
                 $regId = $data[self::COL_REGID];
 
-                // Sort by name
-                //$this->data[strtoupper($lname.'_'.$fname . '_' . $regId)] = $data;
-                //$sortType = 'asc';
-
-                // Sort by registration date (DESC)
-                $this->data[$regId] = $data;
-                $sortType = 'desc';
+                if ($sortType == 'alpha') {
+                    // Sort by name
+                    $this->data[strtoupper($lname.'_'.$fname . '_' . $regId)] = $data;
+                } else {
+                    $this->data[$regId] = $data;
+                }
             }
             fclose($handle);
         }
 
-        if ($sortType = 'desc') {
+        if ($sortDir == 'desc') {
             krsort($this->data);
         } else {
             ksort($this->data);

@@ -15,7 +15,64 @@ class CompetitorDivisionTemplates {
     }
 
     public static function get2018() {
-    	return static::getDefault();
+    	//return static::getDefault();
+	    return array(
+
+		    /** TT/LD Divisions **/
+		    'all:TTLD00:TTLD00:0:8:TTLD-01',
+
+
+		    /** Gup Divisions **/
+		    // Beginners
+		    'male:WHITE10:ORANGE07:0:9:G-01',
+		    'female:WHITE10:ORANGE07:0:9:G-02',
+
+		    'male:WHITE10:ORANGE07:10:12:G-03',
+		    'female:WHITE10:ORANGE07:10:12:G-04',
+
+		    'male:WHITE10:ORANGE07:13:17:G-05',
+		    'female:WHITE10:GREEN05:13:17:G-06',
+
+		    'male:WHITE10:WHITE09:18:120:G-07',
+		    'female:WHITE10:WHITE09:18:120:G-08',
+
+		    // Intermediate
+		    'male:GREEN06:GREEN05:0:9:G-09',
+		    'female:GREEN06:BROWN03:0:10:G-10',
+
+		    'male:GREEN06:BROWN03:10:12:G-11',
+		    'female:GREEN06:BROWN03:11:12:G-12',
+
+		    'male:BROWN04:CDB00:13:14:G-13',
+		    'female:BROWN04:BROWN03:13:17:G-14',
+
+		    'male:ORANGE08:BROWN03:18:120:G-15',
+		    'female:ORANGE08:BROWN03:18:120:G-16',
+
+		    // Advanced
+		    'male:BROWN04:CDB00:0:9:G-17',
+		    'female:RED02:CDB00:0:9:G-18',
+
+		    'male:RED02:CDB00:10:12:G-19',
+		    'female:RED02:CDB00:10:12:G-20',
+
+		    'male:BROWN04:CDB00:15:17:G-21',
+		    'female:RED02:CDB00:13:17:G-22',
+
+		    'male:RED02:CDB00:18:120:G-23',
+		    'female:RED02:CDB00:18:120:G-24',
+
+
+		    /** Dans Divisions **/
+		    'male:DAN01:DAN03:13:17:D-01',
+		    'female:DAN01:DAN03:13:17:D-02',
+
+		    'male:DAN01:DAN03:18:34:D-03',
+		    'female:DAN01:DAN03:18:34:D-04',
+
+		    'male:DAN01:DAN03:35:120:D-05',
+		    'female:DAN01:DAN03:35:120:D-06',
+	    );
 	}
 
     public static function get2017() {

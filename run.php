@@ -21,29 +21,44 @@ require_once './reportGenerators/CompetitorTicketsPdf.php';
 require_once './reportGenerators/CompetitorListPdf.php';
 require_once './reportGenerators/CompetitorsPerDivisionPdf.php';
 require_once './reportGenerators/DinnerAttendanceListPdf.php';
+require_once './reportGenerators/UnpaidAttendeeListPdf.php';
 
 // Set Date
-$date = date('Y-m-d_H.i.s');
+$date = date('Y-m-d_h.ia');
 
 // Run generator here
 echo "Generating studio attendance report ($date)\n";
-//$report = new \reportGenerators\StudioAttendancePdf('./data/input.csv', './data/Studio.Attendance.' . $date . '.pdf');
+$report = new \reportGenerators\StudioAttendancePdf('./data/input.csv', './data/Studio.Attendance.' . $date . '.pdf');
 
 // Run generator here
 echo "Generating divisions report ($date)\n";
-//$report = new \reportGenerators\CompetitorsPerDivisionPdf('./data/input.csv', './data/Competitor.Divisions.' . $date . '.pdf');
+$report = new \reportGenerators\CompetitorsPerDivisionPdf('./data/input.csv', './data/Competitor.Divisions.' . $date . '.pdf');
 
 // Run generator here
 echo "Generating competitor list ($date)\n";
 $report = new \reportGenerators\CompetitorListPdf('./data/input.csv', './data/Competitor.List.' . $date . '.pdf');
 
 // Run generator here
-echo "Generating tickets ($date)\n";
-//$report = new \reportGenerators\CompetitorTicketsPdf('./data/input.csv', './data/Competitor.Tickets.' . $date . '.pdf');
+echo "Generating tickets Alphabetical ($date)\n";
+$report = new \reportGenerators\CompetitorTicketsPdf(
+	'./data/input.csv',
+	'./data/Competitor.Tickets.Alphabetical.' . $date . '.pdf',
+	\reportGenerators\CompetitorTicketsPdf::SORT_ALPHA);
+
+// Run generator here
+echo "Generating tickets by Reg Date($date)\n";
+$report = new \reportGenerators\CompetitorTicketsPdf(
+	'./data/input.csv',
+	'./data/Competitor.Tickets.RegDate.' . $date . '.pdf',
+	\reportGenerators\CompetitorTicketsPdf::SORT_REGDATE);
 
 // Run generator here
 echo "Generating dinner attendees report ($date)\n";
-//$report = new \reportGenerators\DinnerAttendanceListPdf('./data/input.csv', './data/Dinner.Attendance.List.' . $date . '.pdf');
+$report = new \reportGenerators\DinnerAttendanceListPdf('./data/input.csv', './data/Dinner.Attendance.List.' . $date . '.pdf');
+
+// Run generator here
+echo "Generating unpaid report ($date)\n";
+$report = new \reportGenerators\UnpaidAttendeeListPdf('./data/input.csv', './data/Unpaid.Attendee.List.' . $date . '.pdf');
 
 // Clean up
 session_destroy();
